@@ -20,15 +20,15 @@ export function PlayListsPage() {
         position: "top-right",
       });
     }
-  });
+  },[syncingData , syncingSuccess]);
 
   useEffect(() => {
-    if (syncingData && syncingError) {
+    if ( syncingError) {
       toast.error(`Error While Syncing Playlists Try Again`, {
         position: "top-right",
       });
     }
-  });
+  },[syncingError]);
 
   return (
     <div className="flex justify-center">
