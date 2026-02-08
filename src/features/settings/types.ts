@@ -4,5 +4,6 @@ export type SettingsType = {
     concurrent_downloads:number
     concurrent_fragment_downloads:number
     download_retries:number
+    sync_interval:number
 
 }

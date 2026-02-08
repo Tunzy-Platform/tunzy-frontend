@@ -47,6 +47,12 @@ const formSchema = z.object({
     .max(20, { error: "The Maximum Is 20" })
     .default(4)
     .nonoptional({ error: "This Field Is Required" }),
+  sync_interval: z
+    .number()
+    .min(1, { error: "The Minimum Is 1 Minutes" })
+    .max(1440, { error: "The Maximum Is 1,440 Minutes" })
+    .default(4)
+    .nonoptional({ error: "This Field Is Required" }),
 });
 
 export function SettingsForm({
@@ -55,12 +61,14 @@ export function SettingsForm({
   concurrent_downloads,
   concurrent_fragment_downloads,
   download_retries,
+  sync_interval,
 }: {
   soundcloud_oauth: string;
   http_proxy: string;
   concurrent_downloads: number;
   concurrent_fragment_downloads: number;
   download_retries: number;
+  sync_interval: number;
 }) {
   const mutation = useUpdateSettings();
   const queryClient = useQueryClient();
@@ -72,6 +80,7 @@ export function SettingsForm({
       concurrent_downloads: concurrent_downloads,
       concurrent_fragment_downloads: concurrent_fragment_downloads,
       download_retries: download_retries,
+      sync_interval: sync_interval,
     },
     validators: {
       onSubmit: formSchema,
@@ -226,6 +235,31 @@ export function SettingsForm({
                   />
                   <FieldDescription>
                     Total retry to download the music
+                  </FieldDescription>
+                </Field>
+              );
+            }}
+          />
+          <form.Field
+            name="sync_interval"
+            children={(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
+              return (
+                <Field>
+                  <FieldLabel>Sync Interval</FieldLabel>
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+
+                  <Input
+                    type="number"
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    aria-invalid={isInvalid}
+                    onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+                  />
+                  <FieldDescription>
+                    Sync Playlists and Tracks at fixed Intervals
                   </FieldDescription>
                 </Field>
               );

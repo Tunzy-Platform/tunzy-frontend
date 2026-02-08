@@ -12,6 +12,6 @@ export function useFetchSettings(){
     return useQuery({
         queryKey:["settings"],
         queryFn:()=>fetchSettings(),
-        staleTime:Infinity
+        staleTime:Infinity,
     })
 }
