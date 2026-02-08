@@ -11,6 +11,8 @@ import { Spinner } from "@/components/ui/spinner";
 
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { SpinnerButton } from "@/components/SpinnerButton";
+import { EmptyList } from "@/features/playlists/components/EmptyList";
 export function PlaylistTracksPage() {
   const { playlistID } = useParams<{ playlistID: string }>();
   const {
@@ -54,14 +56,12 @@ export function PlaylistTracksPage() {
     <div className="flex justify-center">
       <div className="w-full max-w-5xl pt-10 gap-3 flex flex-col">
         <div className="flex gap-2 self-end">
-          <Button
-            variant="secondary"
+          <SpinnerButton
+            text="Syncing"
+            setState={syncing}
             disabled={syncingIsLoading}
-            onClick={() => syncing()}
-          >
-            Syncing
-            {syncingIsLoading && <Spinner data-icon="inline-start" />}
-          </Button>
+            isLoading={syncingIsLoading}
+          />
           <Button variant="secondary" disabled>
             Downloading
             <Spinner data-icon="inline-start" />
@@ -73,6 +73,14 @@ export function PlaylistTracksPage() {
         </div>
         <div>
           <h1>Tracks:</h1>
+          {!data?.length && (
+            <EmptyList
+              text="Syncing"
+              setState={syncing}
+              disabled={syncingIsLoading}
+              isLoading={syncingIsLoading}
+            />
+          )}
           <PlaylistTrack tracks={data} />
         </div>
       </div>
