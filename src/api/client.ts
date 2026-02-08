@@ -19,3 +19,6 @@ export async function GET<T>(path:string,options:RequestInit):Promise<T>{
 export async function POST<T>(path:string,body:object,options:RequestInit):Promise<T>{
     return api(path,{...options,method:"POST",body:JSON.stringify(body)})
 }
+export async function PATCH<T>(path:string,body:object,options:RequestInit):Promise<T>{
+    return api(path,{...options,method:"PATCH",body:JSON.stringify(body)})
+}
