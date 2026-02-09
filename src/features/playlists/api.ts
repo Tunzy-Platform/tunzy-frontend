@@ -1,5 +1,5 @@
 import { GET,POST } from "@/api/client";
-import type {  PlaylistType, PlaylistTrackType, SyncPlaylistTracksType, SyncPlaylistsType } from "./types";
+import type {  PlaylistType, PlaylistTrackType, SyncPlaylistTracksType, SyncPlaylistsType } from "../../types/types";
 
 
 

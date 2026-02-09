@@ -1,7 +1,7 @@
 import { ItemGroup } from "@/components/ui/item";
 
 import { PlaylistTrackItem } from "./PlaylistTrackItem";
-import type { PlaylistTrackType } from "../types";
+import type { PlaylistTrackType } from "../../../types/types";
 
 export function PlaylistTrack({
   tracks,

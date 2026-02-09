@@ -5,7 +5,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import type { PlaylistTrackType } from "../types";
+import type { PlaylistTrackType } from "../../../types/types";
 import { convertDurationToTime } from "../utils";
 
 export function PlaylistTrackItem({ song }: { song: PlaylistTrackType }) {
