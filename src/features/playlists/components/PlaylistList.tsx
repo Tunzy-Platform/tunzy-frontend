@@ -60,9 +60,8 @@ export function PlaylistList() {
             isLoading={syncingIsLoading}
           />
         )}
-        {data.map((playlist) => (
-          <PlaylistListItem playlist={playlist} />
-        ))}
+        {data &&
+          data.map((playlist) => <PlaylistListItem playlist={playlist} />)}
       </ItemGroup>
     </div>
   );
