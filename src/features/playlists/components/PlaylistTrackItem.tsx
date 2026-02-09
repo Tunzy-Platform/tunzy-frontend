@@ -14,7 +14,7 @@ export function PlaylistTrackItem({ song }: { song: PlaylistTrackType }) {
       <a href="#">
         <ItemMedia variant="image" className="w-1/12 h-1/6">
           <img
-            src={song.thumbnail}
+            src={song.thumbnail || ""}
             alt={song.name}
             className="object-cover  "
           />

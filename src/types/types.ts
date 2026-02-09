@@ -13,10 +13,10 @@ export type PlaylistTrackType = {
     url:string
     name:string
     artist_name:string
-    album:string
+    album:string|null
     duration:number
     is_synced:boolean
-    thumbnail:string
+    thumbnail:string|null
 }
 export type SyncPlaylistTracksType = {
     updated_tracks:number
