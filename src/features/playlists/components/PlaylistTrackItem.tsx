@@ -6,7 +6,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import type { PlaylistTrackType } from "../../../types/types";
-import { convertDurationToTime } from "../utils";
+import { convertDurationToTime } from "../../../utils";
 
 export function PlaylistTrackItem({ song }: { song: PlaylistTrackType }) {
   return (

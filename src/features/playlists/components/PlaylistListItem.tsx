@@ -8,7 +8,7 @@ import {
 
 import { Link } from "react-router-dom";
 import type { PlaylistType } from "../../../types/types";
-import { convertDurationToTime } from "../utils";
+import { convertDurationToTime } from "../../../utils";
 import { InfinityIcon } from "lucide-react";
 export function PlaylistListItem({ playlist }: { playlist: PlaylistType }) {
   return (
