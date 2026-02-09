@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchDownloads, startDownloadTrack } from "./api";
+import type { PlaylistTrackType } from "@/types/types";
 
 
 export function useFetchDownloads(){
@@ -15,7 +16,7 @@ export function useStartDownloadTrack(playlistID: number) {
     mutationFn: (trackID: number) =>
       startDownloadTrack(trackID),
     onSuccess:(data,trackID)=>{
-        queryClient.setQueryData(['playlist-tracks',playlistID],(cache)=>( 
+        queryClient.setQueryData(['playlist-tracks',playlistID],(cache:PlaylistTrackType[])=>( 
             cache.map((cacheItem)=>cacheItem.id==trackID ? {...cacheItem,download:data} : cacheItem)
         ))
         return data
