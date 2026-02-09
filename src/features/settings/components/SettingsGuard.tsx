@@ -4,10 +4,10 @@ import { isSettingComplete } from "../utils";
 
 
 export function SettingsGuard() {
-  const { data, isError } = useFetchSettings();
+  const { data, isError, isLoading } = useFetchSettings();
 
 
-  if (!data || !isSettingComplete(data) || isError) {
+  if (!isLoading && (!data || !isSettingComplete(data) || isError)) {
     return <Navigate to="settings/" replace />;
   }
   return <Outlet />;
