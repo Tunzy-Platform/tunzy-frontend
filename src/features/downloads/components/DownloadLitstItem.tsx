@@ -15,7 +15,7 @@ export function DownloadListItem({ song }: { song: PlaylistTrackType }) {
       <a href="#">
         <ItemMedia variant="image" className="w-20 h-20">
           <img
-            src={song.thumbnail || ""}
+            src={song.thumbnail || undefined}
             alt={song.name}
             className="object-cover  "
           />
@@ -26,14 +26,13 @@ export function DownloadListItem({ song }: { song: PlaylistTrackType }) {
             <span className="text-muted-foreground">{song.album}</span>
           </ItemTitle>
           <ItemDescription>{song.artist_name}</ItemDescription>
-          <ItemDescription className="w-full">
-            <Field className="w-full ">
-              <div className="flex w-full gap-5 items-center ">
-                <Progress value={66} id="progress-upload" className="flex-1" />
-                <span className="ml-auto">66%</span>
-              </div>
-            </Field>
-          </ItemDescription>
+
+          <Field className="w-full ">
+            <div className="flex w-full gap-5 items-center ">
+              <Progress value={66} id="progress-upload" className="flex-1" />
+              <span className="ml-auto">66%</span>
+            </div>
+          </Field>
         </ItemContent>
       </a>
     </Item>

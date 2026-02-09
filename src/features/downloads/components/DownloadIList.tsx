@@ -14,7 +14,7 @@ export function DownloadsList() {
   return (
     <div className="flex flex-col justify-center gap-4 w-full">
       {data.map((item) => {
-        return <DownloadListItem song={item.track} />;
+        return <DownloadListItem key={item.id} song={item.track} />;
       })}
     </div>
   );
