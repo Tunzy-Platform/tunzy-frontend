@@ -25,7 +25,8 @@ export function usePlaylistTracks(playlistID:number){
         {
         queryKey:["playlist-tracks",playlistID],
         queryFn:()=> fetchPlaylistTracks(playlistID),
-        enabled: !!playlistID
+        enabled: !!playlistID,
+        refetchOnWindowFocus:false,
     })
 }
    
