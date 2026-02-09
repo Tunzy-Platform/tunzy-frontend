@@ -3,12 +3,12 @@ import type { PlaylistTrackType } from "@/types/types"
 export const  DownloadStatusEnum ={
   Pending : 'pending',
   Downloading : 'downloading',
-  Error : 'error',
+  Failed : 'failed',
   Successful : 'successful',
 }
 export type DownloadStatusType = typeof DownloadStatusEnum[keyof typeof DownloadStatusEnum]
 
-export type DownloadTrackType = {
+export type DownloadTrack = {
     id:number
     status:DownloadStatusType
     track:PlaylistTrackType
