@@ -22,7 +22,7 @@ export function DownloadListItem({ song }: { song: PlaylistTrackType }) {
         </ItemMedia>
         <ItemContent className="">
           <ItemTitle className="line-clamp-1">
-            {song.name} -{" "}
+            {song.name} {song.album && "- "}
             <span className="text-muted-foreground">{song.album}</span>
           </ItemTitle>
           <ItemDescription>{song.artist_name}</ItemDescription>
