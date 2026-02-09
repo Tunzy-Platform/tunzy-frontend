@@ -7,14 +7,27 @@ import {
 } from "@/components/ui/item";
 import type { PlaylistTrackType } from "../../../types/types";
 import { convertDurationToTime } from "../../../utils";
+import { SpinnerButton } from "@/components/SpinnerButton";
+import { useStartDownloadTrack } from "@/features/downloads/hooks";
+import { DownloadStatusEnum } from "@/features/downloads/types";
 
-export function PlaylistTrackItem({ song }: { song: PlaylistTrackType }) {
+
+export function PlaylistTrackItem({
+  playlistID,
+  song,
+}: {
+  playlistID: number;
+  song: PlaylistTrackType;
+}) {
+  const { mutate: downloadMutation, isPending } =
+    useStartDownloadTrack(playlistID);
+
   return (
-    <Item key={song.id} variant="outline" asChild role="listitem">
-      <a href="#">
+    <Item variant="outline" asChild role="listitem">
+      <div>
         <ItemMedia variant="image" className="w-1/12 h-1/6">
           <img
-            src={song.thumbnail || ""}
+            src={song.thumbnail || undefined}
             alt={song.name}
             className="object-cover  "
           />
@@ -31,10 +44,46 @@ export function PlaylistTrackItem({ song }: { song: PlaylistTrackType }) {
             {convertDurationToTime(song.duration)}
           </ItemDescription>
         </ItemContent>
-        <ItemContent className="flex-none text-center">
-          {song.is_synced ? "✅" : "☑️"}
+        <ItemContent>
+          <div className="flex gap-2 self-end">
+            {song.download == null && (
+              <SpinnerButton
+                text="Download & Play"
+                setState={() => downloadMutation(song.id)}
+                disabled={isPending}
+                isLoading={isPending}
+              />
+            )}
+            {song.download &&
+              song.download.status == DownloadStatusEnum.Successful && (
+                <SpinnerButton
+                  text="Play"
+                  setState={() => null}
+                  disabled={isPending}
+                  isLoading={isPending}
+                />
+              )}
+            {song.download &&
+              song.download.status == DownloadStatusEnum.Pending && (
+                <SpinnerButton
+                  text="Downloading"
+                  setState={() => null}
+                  disabled={isPending}
+                  isLoading={true}
+                />
+              )}
+            {song.download &&
+              song.download.status == DownloadStatusEnum.Downloading && (
+                <SpinnerButton
+                  text="Downloading"
+                  setState={() => null}
+                  disabled={isPending}
+                  isLoading={true}
+                />
+              )}
+          </div>
         </ItemContent>
-      </a>
+      </div>
     </Item>
   );
 }

@@ -1,3 +1,11 @@
+import type { DownloadStatusType } from "@/features/downloads/types"
+
+export type DownloadTrackData = {
+    id:number
+    file_path:string|null
+    status:DownloadStatusType
+}
+
 export type PlaylistType = {
     id:number
     url:string
@@ -7,6 +15,7 @@ export type PlaylistType = {
     duration:number
     thumbnail:string
     is_synced:boolean
+
 }
 export type PlaylistTrackType = {
     id:number
@@ -17,6 +26,7 @@ export type PlaylistTrackType = {
     duration:number
     is_synced:boolean
     thumbnail:string|null
+    download:DownloadTrackData|null
 }
 export type SyncPlaylistTracksType = {
     updated_tracks:number

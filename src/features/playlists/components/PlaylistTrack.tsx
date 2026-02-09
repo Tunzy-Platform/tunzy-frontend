@@ -5,14 +5,20 @@ import type { PlaylistTrackType } from "../../../types/types";
 
 export function PlaylistTrack({
   tracks,
+  playlistID,
 }: {
   tracks: Array<PlaylistTrackType>;
+  playlistID: number;
 }) {
   return (
     <div className="flex w-full flex-col gap-6">
       <ItemGroup className="gap-2">
         {tracks.map((song) => (
-          <PlaylistTrackItem song={song} />
+          <PlaylistTrackItem
+            key={song.id}
+            song={song}
+            playlistID={playlistID}
+          />
         ))}
       </ItemGroup>
     </div>

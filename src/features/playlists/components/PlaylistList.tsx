@@ -61,7 +61,9 @@ export function PlaylistList() {
           />
         )}
         {data &&
-          data.map((playlist) => <PlaylistListItem playlist={playlist} />)}
+          data.map((playlist) => (
+            <PlaylistListItem key={playlist.id} playlist={playlist} />
+          ))}
       </ItemGroup>
     </div>
   );
