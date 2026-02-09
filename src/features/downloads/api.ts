@@ -1,9 +1,10 @@
 import { GET, POST } from "@/api/client";
-import type { DownloadTrackType } from "./types";
+import type { DownloadTrackData } from "@/types/types";
+import type { DownloadTrack } from "./types";
 
-export function fetchDownloads():Promise<DownloadTrackType[]>{
+export function fetchDownloads():Promise<DownloadTrack[]>{
     return GET("downloads/",{})
 }
-export function startDownloadTrack(trackID:number):Promise<DownloadTrackType>{
+export function startDownloadTrack(trackID:number):Promise<DownloadTrackData>{
     return POST(`downloads/playlists/tracks/${trackID}`,{},{})
 }
