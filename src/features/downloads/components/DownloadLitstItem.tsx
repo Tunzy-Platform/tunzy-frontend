@@ -1,6 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import {
   Item,
+  ItemActions,
   ItemContent,
   ItemDescription,
   ItemMedia,
@@ -8,8 +10,17 @@ import {
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
 import type { PlaylistTrackType } from "@/types/types";
+import { DownloadStatusEnum } from "../types";
 
-export function DownloadListItem({ song }: { song: PlaylistTrackType }) {
+export function DownloadListItem({
+  song,
+  cancelFn,
+  retryFn,
+}: {
+  song: PlaylistTrackType;
+  cancelFn: CallableFunction;
+  retryFn: CallableFunction;
+}) {
   return (
     <Item key={song.id} variant="outline" asChild role="listitem">
       <a href="#">
@@ -34,6 +45,20 @@ export function DownloadListItem({ song }: { song: PlaylistTrackType }) {
             </div>
           </Field>
         </ItemContent>
+        {song.download?.status == DownloadStatusEnum.Failed && (
+          <ItemActions>
+            <Button variant="outline" onClick={() => retryFn()}>
+              Retry
+            </Button>
+          </ItemActions>
+        )}
+        {song.download?.status != DownloadStatusEnum.Successful && (
+          <ItemActions>
+            <Button variant="outline" onClick={() => cancelFn()}>
+              Cancel
+            </Button>
+          </ItemActions>
+        )}
       </a>
     </Item>
   );

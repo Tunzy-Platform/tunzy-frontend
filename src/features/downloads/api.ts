@@ -8,3 +8,6 @@ export function fetchDownloads():Promise<DownloadTrack[]>{
 export function startDownloadTrack(trackID:number):Promise<DownloadTrackData>{
     return POST(`downloads/playlists/tracks/${trackID}`,{},{})
 }
+export function cancelDownloadTrack(downloadID:number):Promise<DownloadTrackData>{
+    return POST(`downloads/${downloadID}/cancel/`,{},{})
+}
