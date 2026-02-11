@@ -12,6 +12,8 @@ import { Progress } from "@/components/ui/progress";
 import { DownloadStatusEnum, type DownloadTrack } from "../types";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
+import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function DownloadListItem({
   item,
@@ -22,15 +24,21 @@ export function DownloadListItem({
   cancelFn: CallableFunction;
   retryFn: CallableFunction;
 }) {
+    const [imgIsLoaded, setImgIsLoaded] = useState(false);
+  
   return (
     <Item key={item.track.id} variant="outline" asChild role="listitem">
       <div>
         <ItemMedia variant="image" className="w-20 h-20">
-          <img
-            src={item.track.thumbnail || undefined}
-            alt={item.track.name}
-            className="object-cover  "
-          />
+          {!imgIsLoaded && <Skeleton className="size-16 shrink-0" />}
+          {item.track.thumbnail && (
+            <img
+              src={item.track.thumbnail}
+              alt={item.track.name}
+              className="object-cover"
+              onLoad={() => setImgIsLoaded(true)}
+            />
+          )}
         </ItemMedia>
         <ItemContent className="">
           <ItemTitle className="line-clamp-1">

@@ -12,6 +12,7 @@ export function DownloadsList() {
 
   const API_BASE_UEL = "http://127.0.0.1:8000/downloads/progress-reports/";
   useEffect(() => {
+    // TODO: add type for progress-reports
     const eventSource = new EventSource(API_BASE_UEL, {});
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);

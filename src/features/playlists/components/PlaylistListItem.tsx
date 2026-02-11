@@ -10,15 +10,22 @@ import { Link } from "react-router-dom";
 import type { PlaylistType } from "../../../types/types";
 import { convertDurationToTime } from "../../../utils";
 import { InfinityIcon } from "lucide-react";
+import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 export function PlaylistListItem({ playlist }: { playlist: PlaylistType }) {
+  const [imgIsLoaded, setImageIsLoaded] = useState(false);
   return (
     <Item key={playlist.id} variant="outline" asChild role="listitem">
       <Link to={`/playlists/${playlist.id}`}>
-        <ItemMedia variant="image" className="w-1/12 h-1/6">
+        <ItemMedia variant="image" className="size-18">
+          {!imgIsLoaded && (
+            <Skeleton className="size-18 shrink-0  object-cover " />
+          )}
           <img
             src={playlist.thumbnail}
             alt={playlist.name}
             className="object-cover  "
+            onLoad={() => setImageIsLoaded(true)}
           />
         </ItemMedia>
         <ItemContent>

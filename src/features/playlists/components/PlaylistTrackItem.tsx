@@ -10,6 +10,8 @@ import { convertDurationToTime } from "../../../utils";
 import { SpinnerButton } from "@/components/SpinnerButton";
 import { useStartDownloadTrack } from "@/features/downloads/hooks";
 import { DownloadStatusEnum } from "@/features/downloads/types";
+import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 export function PlaylistTrackItem({
@@ -21,16 +23,20 @@ export function PlaylistTrackItem({
 }) {
   const { mutate: downloadMutation, isPending } =
     useStartDownloadTrack(playlistID);
-
+  const [imgIsLoaded, setImgIsLoaded] = useState(false);
   return (
     <Item variant="outline" asChild role="listitem">
       <div>
-        <ItemMedia variant="image" className="w-1/12 h-1/6">
-          <img
-            src={song.thumbnail || undefined}
-            alt={song.name}
-            className="object-cover  "
-          />
+        <ItemMedia variant="image" className="size-16">
+          {!imgIsLoaded && <Skeleton className="size-16 shrink-0" />}
+          {song.thumbnail && (
+            <img
+              src={song.thumbnail}
+              alt={song.name}
+              className="object-cover"
+              onLoad={() => setImgIsLoaded(true)}
+            />
+          )}
         </ItemMedia>
         <ItemContent>
           <ItemTitle className="line-clamp-1">
