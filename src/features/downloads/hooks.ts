@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { cancelDownloadTrack, fetchDownloads, startDownloadTrack } from "./api";
 import type { PlaylistTrackType } from "@/types/types";
+import type { DownloadTrack } from "./types";
 
 
 export function useFetchDownloads(){
@@ -31,6 +32,12 @@ export function useCancelDownloadTrack(){
 
   return useMutation({
     mutationFn: (downloadID:number)=> cancelDownloadTrack(downloadID),
-    onSuccess:()=> queryClient.invalidateQueries({queryKey:['downloads']})
+    onSuccess:(_,downloadID)=>{
+      queryClient.cancelQueries({queryKey:['downloads']})
+      queryClient.setQueryData<DownloadTrack[]>(['downloads'],(items)=>{
+        if(!items) return;
+          return items.filter((item)=> downloadID != item.id)
+      })
+    },
   })
 }

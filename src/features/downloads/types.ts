@@ -12,4 +12,5 @@ export type DownloadTrack = {
     id:number
     status:DownloadStatusType
     track:PlaylistTrackType
+    progress:number
 }

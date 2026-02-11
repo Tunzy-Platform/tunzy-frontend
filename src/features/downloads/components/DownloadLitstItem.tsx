@@ -9,57 +9,71 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
-import type { PlaylistTrackType } from "@/types/types";
-import { DownloadStatusEnum } from "../types";
+import { DownloadStatusEnum, type DownloadTrack } from "../types";
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 
 export function DownloadListItem({
-  song,
+  item,
   cancelFn,
   retryFn,
 }: {
-  song: PlaylistTrackType;
+  item: DownloadTrack;
   cancelFn: CallableFunction;
   retryFn: CallableFunction;
 }) {
   return (
-    <Item key={song.id} variant="outline" asChild role="listitem">
-      <a href="#">
+    <Item key={item.track.id} variant="outline" asChild role="listitem">
+      <div>
         <ItemMedia variant="image" className="w-20 h-20">
           <img
-            src={song.thumbnail || undefined}
-            alt={song.name}
+            src={item.track.thumbnail || undefined}
+            alt={item.track.name}
             className="object-cover  "
           />
         </ItemMedia>
         <ItemContent className="">
           <ItemTitle className="line-clamp-1">
-            {song.name} {song.album && "- "}
-            <span className="text-muted-foreground">{song.album}</span>
+            {item.track.name} {item.track.album && "- "}
+            <span className="text-muted-foreground">{item.track.album}</span>
           </ItemTitle>
-          <ItemDescription>{song.artist_name}</ItemDescription>
-
-          <Field className="w-full ">
-            <div className="flex w-full gap-5 items-center ">
-              <Progress value={66} id="progress-upload" className="flex-1" />
-              <span className="ml-auto">66%</span>
-            </div>
-          </Field>
+          <ItemDescription>{item.track.artist_name}</ItemDescription>
+          {item.status == DownloadStatusEnum.Downloading && (
+            <Field className="w-full ">
+              <div className="flex w-full gap-5 items-center ">
+                <Progress
+                  value={item.progress}
+                  id="progress-upload"
+                  className="flex-1"
+                />
+                <span className="ml-auto">{item.progress}%</span>
+              </div>
+            </Field>
+          )}
+          {item.status == DownloadStatusEnum.Pending && (
+            <Field className="w ">
+              <Badge variant="secondary">
+                Pending
+                <Spinner data-icon="inline-end" />
+              </Badge>
+            </Field>
+          )}
         </ItemContent>
-        {song.download?.status == DownloadStatusEnum.Failed && (
+        {item.status == DownloadStatusEnum.Failed && (
           <ItemActions>
             <Button variant="outline" onClick={() => retryFn()}>
               Retry
             </Button>
           </ItemActions>
         )}
-        {song.download?.status != DownloadStatusEnum.Successful && (
+        {item.status != DownloadStatusEnum.Successful && (
           <ItemActions>
             <Button variant="outline" onClick={() => cancelFn()}>
               Cancel
             </Button>
           </ItemActions>
         )}
-      </a>
+      </div>
     </Item>
   );
 }
