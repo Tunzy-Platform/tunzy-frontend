@@ -41,7 +41,7 @@ export function PlaylistList() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-6 ">
       <div className="self-end">
         <SpinnerButton
           text="Syncing"

@@ -16,6 +16,8 @@ export function DownloadsList() {
     const eventSource = new EventSource(API_BASE_UEL, {});
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      // console.table(data);
+
       queryClient.setQueryData<DownloadTrack[]>(["downloads"], (downloads) => {
         if (!downloads) return;
 

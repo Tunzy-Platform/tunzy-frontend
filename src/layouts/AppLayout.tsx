@@ -1,21 +1,27 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "./Sidebar";
 import { Menubar } from "./Menubar";
 import { Toaster } from "sonner";
+import { PlayerCard } from "@/features/player/components/PlayerCard";
+
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="h-screen pt-14 flex flex-col">
-      <Menubar />
-      <SidebarProvider>
-        <div className="flex w-full flex-1 ">
-          <AppSidebar />
-          <main className=" px-4  w-full">
-            <SidebarTrigger />
-            {children}
-            <Toaster />
-          </main>
-        </div>
-      </SidebarProvider>
+    <div className="flex h-svh flex-col overflow-hidden bg-background">
+      {/* Header - fixed height, no grow */}
+      <header className=" z-30 h-16 shrink-0 border-b bg-background/80 backdrop-blur-sm">
+        <Menubar />
+      </header>
+
+      {/* Main content area – takes remaining space, scrolls internally */}
+      <main className="flex-1 flex overflow-auto ">
+        <div className="flex-1">{children}</div>
+      </main>
+
+      {/* Player – fixed height, stays at bottom in document flow */}
+      <footer className="shrink-0 border-t bg-background/95 backdrop-blur-sm">
+        <PlayerCard />
+      </footer>
+
+      {/* Toaster outside if you want global toasts (recommended) */}
+      <Toaster />
     </div>
   );
 }

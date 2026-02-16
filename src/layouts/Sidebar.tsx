@@ -21,8 +21,8 @@ import {
 
 export function AppSidebar() {
   return (
-    <Sidebar className="mt-10 h-[96%] rounded-3xl overflow-hidden bg-background">
-      <SidebarHeader className="pl-[5px]">
+    <Sidebar className="rounded-3xl overflow-hidden bg-background">
+      <SidebarHeader className="">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton className="pl-0">
