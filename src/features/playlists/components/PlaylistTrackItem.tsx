@@ -56,12 +56,13 @@ export function PlaylistTrackItem({
           <div className="flex gap-2 self-end">
             {song.download == null && (
               <SpinnerButton
-                text="Download & Play"
+                text="Download"
                 setState={() => downloadMutation(song.id)}
                 disabled={isPending}
                 isLoading={isPending}
               />
             )}
+            {/* Successful State */}
             {song.download &&
               song.download.status == DownloadStatusEnum.Successful && (
                 <SpinnerButton
@@ -71,6 +72,7 @@ export function PlaylistTrackItem({
                   isLoading={isPending}
                 />
               )}
+            {/* Pending State */}
             {song.download &&
               song.download.status == DownloadStatusEnum.Pending && (
                 <SpinnerButton
@@ -80,6 +82,7 @@ export function PlaylistTrackItem({
                   isLoading={true}
                 />
               )}
+            {/* Downloading State */}
             {song.download &&
               song.download.status == DownloadStatusEnum.Downloading && (
                 <SpinnerButton
@@ -87,6 +90,16 @@ export function PlaylistTrackItem({
                   setState={() => null}
                   disabled={isPending}
                   isLoading={true}
+                />
+              )}
+            {/* Failed State */}
+            {song.download &&
+              song.download.status == DownloadStatusEnum.Failed && (
+                <SpinnerButton
+                  text="Retry Downloading"
+                  setState={() => null}
+                  disabled={isPending}
+                  isLoading={false}
                 />
               )}
           </div>
