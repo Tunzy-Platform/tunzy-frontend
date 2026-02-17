@@ -27,6 +27,7 @@ export type PlaylistTrackType = {
     is_synced:boolean
     thumbnail:string|null
     download:DownloadTrackData|null
+    stream_url:URL
 }
 export type SyncPlaylistTracksType = {
     updated_tracks:number
