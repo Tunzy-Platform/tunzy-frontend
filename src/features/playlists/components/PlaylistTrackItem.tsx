@@ -21,7 +21,7 @@ export function PlaylistTrackItem({
   song,
   onPlaySong,
 }: {
-  playlistID: number;
+  playlistID: number | undefined;
   song: PlaylistTrackType;
   onPlaySong: CallableFunction;
 }) {
@@ -33,7 +33,6 @@ export function PlaylistTrackItem({
     isPending: retryIsPending,
     isSuccess,
   } = useRetryDownloadTrack();
-
 
   return (
     <Item variant="outline" asChild role="listitem">
@@ -106,7 +105,9 @@ export function PlaylistTrackItem({
               song.download.status == DownloadStatusEnum.Failed && (
                 <SpinnerButton
                   text="Retry Downloading"
-                  setState={() => retryMutate(song?.download?.id)}
+                  setState={() => {
+                    if (song?.download) retryMutate(song.download.id);
+                  }}
                   disabled={retryIsPending || isSuccess}
                   isLoading={retryIsPending || isSuccess}
                 />

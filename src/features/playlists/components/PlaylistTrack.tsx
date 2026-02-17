@@ -1,19 +1,21 @@
 import { ItemGroup } from "@/components/ui/item";
 
 import { PlaylistTrackItem } from "./PlaylistTrackItem";
-import type { PlaylistTrackType } from "../../../types/types";
+import type {
+  DownloadProgressType,
+  PlaylistTrackType,
+} from "../../../types/types";
 import { useContext, useEffect } from "react";
 import { PlayerContext } from "@/features/player/contexts";
 import { useQueryClient } from "@tanstack/react-query";
 import { DownloadStatusEnum } from "@/features/downloads/types";
-import { useRetryDownloadTrack } from "@/features/downloads/hooks";
 
 export function PlaylistTrack({
   tracks,
   playlistID,
 }: {
-  tracks: Array<PlaylistTrackType>;
-  playlistID: number;
+  tracks: PlaylistTrackType[] | null | undefined;
+  playlistID: number | undefined;
 }) {
   const playerContext = useContext(PlayerContext);
   const queryClient = useQueryClient();
@@ -22,7 +24,7 @@ export function PlaylistTrack({
     const eventSource = new EventSource(url);
 
     eventSource.onmessage = (ev) => {
-      const data = JSON.parse(ev.data);
+      const data: DownloadProgressType[] = JSON.parse(ev.data);
       queryClient.setQueryData(
         ["playlist-tracks", playlistID],
         (cache: PlaylistTrackType[]) => {
@@ -67,7 +69,7 @@ export function PlaylistTrack({
   return (
     <div className="flex w-full flex-col gap-6">
       <ItemGroup className="gap-2">
-        {tracks.map((song) => (
+        {tracks?.map((song) => (
           <PlaylistTrackItem
             key={song.id}
             song={song}

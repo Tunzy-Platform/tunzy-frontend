@@ -8,6 +8,7 @@ import { DownloadListItem } from "./DownloadLitstItem";
 import { EmptyList } from "./EmptyList";
 import { useQueryClient } from "@tanstack/react-query";
 import type { DownloadTrack } from "../types";
+import type { DownloadProgressType } from "@/types/types";
 
 export function DownloadsList() {
   const { data, isLoading, error } = useFetchDownloads();
@@ -20,7 +21,7 @@ export function DownloadsList() {
     // TODO: add type for progress-reports
     const eventSource = new EventSource(API_BASE_UEL, {});
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      const data: DownloadProgressType[] = JSON.parse(event.data);
       // console.table(data);
 
       queryClient.setQueryData<DownloadTrack[]>(["downloads"], (downloads) => {

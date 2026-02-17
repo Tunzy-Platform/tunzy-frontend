@@ -11,17 +11,17 @@ export function AudioPlayer({
   hasPrevious = false,
   autoPlay = true,
 }: {
-  src: URL | string;
+  src: string;
   title: string;
   byline: string;
-  thumbnail_src: URL | string | null;
+  thumbnail_src: string | null;
   onNext: CallableFunction | null;
   onPrevious: CallableFunction | null;
   hasNext: boolean;
   hasPrevious: boolean;
   autoPlay: boolean;
 }) {
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -30,7 +30,7 @@ export function AudioPlayer({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const progressRef = useRef(null);
+  const progressRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 480);
@@ -114,7 +114,7 @@ export function AudioPlayer({
     setIsPlaying(!isPlaying);
   };
 
-  const handleSeek = (e) => {
+  const handleSeek = (e: React.MouseEvent) => {
     if (progressRef.current) {
       const rect = progressRef.current.getBoundingClientRect();
       const percent = Math.max(
@@ -148,7 +148,7 @@ export function AudioPlayer({
     }
   };
 
-  const handleVolumeChange = (e) => {
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
     if (audioRef.current) {

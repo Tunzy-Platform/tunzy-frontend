@@ -10,7 +10,7 @@ export function PlayerCard() {
   return (
     <>
       <AudioPlayer
-        src={playerContext.track.stream_url}
+        src={String(playerContext.track.stream_url)}
         title={playerContext.track.name}
         byline={playerContext.track.artist_name}
         thumbnail_src={playerContext.track.thumbnail}

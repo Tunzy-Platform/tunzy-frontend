@@ -12,14 +12,15 @@ export function usePlaylists(){
 
 }
 
-export function usePlaylist(id:number){
+export function usePlaylist(id:number|string|undefined){
     return useQuery({
         queryKey:["playlist",id],
-        queryFn:()=> fetchPlaylist(id)
+        queryFn:()=> fetchPlaylist(Number(id)),
+        enabled:!!id
     })
 }
 
-export function usePlaylistTracks(playlistID:number){
+export function usePlaylistTracks(playlistID:number|undefined){
 
     return useQuery(
         {
@@ -30,7 +31,7 @@ export function usePlaylistTracks(playlistID:number){
     })
 }
    
-export function useSyncPlaylistTracks(playlistID:number){
+export function useSyncPlaylistTracks(playlistID:number|undefined){
     const queryClient = useQueryClient();
     
     const mutation =  useMutation(

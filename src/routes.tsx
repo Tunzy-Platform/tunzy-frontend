@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import { PlaylistTracksPage } from "./pages/PlaylistTracksPage";
-import { PlayListsPage } from "./pages/PlayListsPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { SettingsGuard } from "./features/settings/components/SettingsGuard";
 import { DownloadsPage } from "./pages/DownloadsPage";
+import { PlayListsPage } from "./pages/PlaylistsPage";
+
 
 export function AppRoutes() {
   return (

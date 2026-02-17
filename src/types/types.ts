@@ -5,6 +5,11 @@ export type DownloadTrackData = {
     file_path:string|null
     status:DownloadStatusType
 }
+export type DownloadProgressType = {
+    percent:number
+    status:DownloadStatusType
+    track_id:number
+}
 
 export type PlaylistType = {
     id:number

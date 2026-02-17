@@ -12,7 +12,7 @@ export function useFetchDownloads(){
     })
 }
 
-export function useStartDownloadTrack(playlistID: number) {
+export function useStartDownloadTrack(playlistID: number|undefined) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (trackID: number) =>

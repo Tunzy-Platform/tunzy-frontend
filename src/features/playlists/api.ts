@@ -12,7 +12,7 @@ export function fetchPlaylist(id:number|undefined):Promise<PlaylistType>{
 export function fetchPlaylistTracks(playlistID:number|undefined):Promise<PlaylistTrackType[]>{
     return GET(`playlists/${playlistID}/tracks/`,{})
 }
-export function syncPlaylistTracks(playlistID:number):Promise<SyncPlaylistTracksType>{
+export function syncPlaylistTracks(playlistID:number|undefined):Promise<SyncPlaylistTracksType>{
     return POST(`playlists/${playlistID}/sync/`,{},{})
 }
 export function syncPlaylists():Promise<SyncPlaylistsType>{
