@@ -16,7 +16,7 @@ export function DownloadsList() {
   const { mutate: retryMutate } = useRetryDownloadTrack();
   const queryClient = useQueryClient();
 
-  const API_BASE_UEL = "http://127.0.0.1:8000/downloads/progress-reports/";
+  const API_BASE_UEL = `${process.env.REACT_APP_API_URL}/downloads/progress-reports/`;
   useEffect(() => {
     // TODO: add type for progress-reports
     const eventSource = new EventSource(API_BASE_UEL, {});
