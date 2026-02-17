@@ -62,10 +62,6 @@ export function PlaylistTracksPage() {
             disabled={syncingIsLoading}
             isLoading={syncingIsLoading}
           />
-          <Button variant="secondary" disabled>
-            Downloading
-            <Spinner data-icon="inline-start" />
-          </Button>
         </div>
         <div>
           <h1>Playlist:</h1>
