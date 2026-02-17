@@ -1,5 +1,4 @@
-const API_BASE_UEL = process.env.REACT_APP_BASE_URL_API;
-
+const API_BASE_UEL = import.meta.env.VITE_REACT_APP_BASE_URL_API;
 
 export async function api<T>(path:string,options:RequestInit):Promise<T>{
     const res = await fetch(`${API_BASE_UEL}/${path}`,{

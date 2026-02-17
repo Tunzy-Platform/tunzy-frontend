@@ -20,7 +20,7 @@ export function PlaylistTrack({
   const playerContext = useContext(PlayerContext);
   const queryClient = useQueryClient();
   useEffect(() => {
-    const url = `${process.env.REACT_APP_API_URL}/downloads/progress-report/${playlistID}/playlist`;
+    const url = `${import.meta.env.VITE_REACT_APP_BASE_URL_API}/downloads/progress-report/${playlistID}/playlist`;
     const eventSource = new EventSource(url);
 
     eventSource.onmessage = (ev) => {
