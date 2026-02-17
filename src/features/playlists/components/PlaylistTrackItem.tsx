@@ -12,18 +12,22 @@ import { useStartDownloadTrack } from "@/features/downloads/hooks";
 import { DownloadStatusEnum } from "@/features/downloads/types";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { PlayerContextType } from "@/features/player/contexts";
 
 
 export function PlaylistTrackItem({
   playlistID,
   song,
+  onPlaySong,
 }: {
   playlistID: number;
   song: PlaylistTrackType;
+  onPlaySong: CallableFunction;
 }) {
   const { mutate: downloadMutation, isPending } =
     useStartDownloadTrack(playlistID);
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
+
   return (
     <Item variant="outline" asChild role="listitem">
       <div>
@@ -64,7 +68,7 @@ export function PlaylistTrackItem({
               song.download.status == DownloadStatusEnum.Successful && (
                 <SpinnerButton
                   text="Play"
-                  setState={() => null}
+                  setState={() => onPlaySong(song)}
                   disabled={isPending}
                   isLoading={isPending}
                 />
