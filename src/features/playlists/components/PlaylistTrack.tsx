@@ -6,6 +6,7 @@ import { useContext, useEffect } from "react";
 import { PlayerContext } from "@/features/player/contexts";
 import { useQueryClient } from "@tanstack/react-query";
 import { DownloadStatusEnum } from "@/features/downloads/types";
+import { useRetryDownloadTrack } from "@/features/downloads/hooks";
 
 export function PlaylistTrack({
   tracks,

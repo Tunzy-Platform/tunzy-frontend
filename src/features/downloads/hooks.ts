@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { cancelDownloadTrack, fetchDownloads, startDownloadTrack } from "./api";
-import type { PlaylistTrackType } from "@/types/types";
+import { cancelDownloadTrack, fetchDownloads, retryDownloadTrack, startDownloadTrack } from "./api";
+import type { DownloadTrackData, PlaylistTrackType } from "@/types/types";
 import type { DownloadTrack } from "./types";
 
 
@@ -34,10 +34,32 @@ export function useCancelDownloadTrack(){
     mutationFn: (downloadID:number)=> cancelDownloadTrack(downloadID),
     onSuccess:(_,downloadID)=>{
       queryClient.cancelQueries({queryKey:['downloads']})
-      queryClient.setQueryData<DownloadTrack[]>(['downloads'],(items)=>{
+      queryClient.setQueryData<DownloadTrackData[]>(['downloads'],(items)=>{
         if(!items) return;
           return items.filter((item)=> downloadID != item.id)
       })
     },
+  })
+}
+
+export function useRetryDownloadTrack(){
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (downloadID:number)=> retryDownloadTrack(downloadID),
+    onSuccess: (response,downloadID)=>{
+      queryClient.cancelQueries({queryKey:['downloads']})
+      queryClient.setQueryData<DownloadTrack[]>(['downloads'],(cache)=>{
+        if(!cache) return;
+        const map = new Map(cache.map((item)=> [item.id,item]))
+        const itemObject = map.get(downloadID)
+        if(!itemObject) return cache;
+        map.set(downloadID,{
+          ...itemObject,
+          status:response.status,
+        })
+        return Array.from(map.values())
+      })
+
+    }
   })
 }

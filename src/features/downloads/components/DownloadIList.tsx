@@ -1,5 +1,9 @@
 import { useEffect } from "react";
-import { useCancelDownloadTrack, useFetchDownloads } from "../hooks";
+import {
+  useCancelDownloadTrack,
+  useFetchDownloads,
+  useRetryDownloadTrack,
+} from "../hooks";
 import { DownloadListItem } from "./DownloadLitstItem";
 import { EmptyList } from "./EmptyList";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,7 +11,8 @@ import type { DownloadTrack } from "../types";
 
 export function DownloadsList() {
   const { data, isLoading, error } = useFetchDownloads();
-  const { mutate } = useCancelDownloadTrack();
+  const { mutate: cancelMutate } = useCancelDownloadTrack();
+  const { mutate: retryMutate } = useRetryDownloadTrack();
   const queryClient = useQueryClient();
 
   const API_BASE_UEL = "http://127.0.0.1:8000/downloads/progress-reports/";
@@ -50,8 +55,8 @@ export function DownloadsList() {
           <DownloadListItem
             key={item.id}
             item={item}
-            cancelFn={() => mutate(item.id)}
-            retryFn={() => mutate(item.id)}
+            cancelFn={() => cancelMutate(item.id)}
+            retryFn={() => retryMutate(item.id)}
           />
         );
       })}

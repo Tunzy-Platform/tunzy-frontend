@@ -8,7 +8,10 @@ import {
 import type { PlaylistTrackType } from "../../../types/types";
 import { convertDurationToTime } from "../../../utils";
 import { SpinnerButton } from "@/components/SpinnerButton";
-import { useStartDownloadTrack } from "@/features/downloads/hooks";
+import {
+  useRetryDownloadTrack,
+  useStartDownloadTrack,
+} from "@/features/downloads/hooks";
 import { DownloadStatusEnum } from "@/features/downloads/types";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -25,6 +28,12 @@ export function PlaylistTrackItem({
   const { mutate: downloadMutation, isPending } =
     useStartDownloadTrack(playlistID);
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
+  const {
+    mutate: retryMutate,
+    isPending: retryIsPending,
+    isSuccess,
+  } = useRetryDownloadTrack();
+
 
   return (
     <Item variant="outline" asChild role="listitem">
@@ -97,9 +106,9 @@ export function PlaylistTrackItem({
               song.download.status == DownloadStatusEnum.Failed && (
                 <SpinnerButton
                   text="Retry Downloading"
-                  setState={() => null}
-                  disabled={isPending}
-                  isLoading={false}
+                  setState={() => retryMutate(song?.download?.id)}
+                  disabled={retryIsPending || isSuccess}
+                  isLoading={retryIsPending || isSuccess}
                 />
               )}
           </div>

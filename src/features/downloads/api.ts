@@ -11,3 +11,6 @@ export function startDownloadTrack(trackID:number):Promise<DownloadTrackData>{
 export function cancelDownloadTrack(downloadID:number):Promise<DownloadTrackData>{
     return POST(`downloads/${downloadID}/cancel/`,{},{})
 }
+export function retryDownloadTrack(downloadID:number):Promise<DownloadTrackData>{
+    return POST(`downloads/${downloadID}/retry`,{},{})
+}
