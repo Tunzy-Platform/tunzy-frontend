@@ -4,12 +4,22 @@ export function AudioPlayer({
   src,
   title = "Audio Title",
   byline = "Artist Name",
-  posterUrl = null,
-  defaultDuration = "0:00",
+  thumbnail_src = null,
   onNext = null,
   onPrevious = null,
   hasNext = false,
   hasPrevious = false,
+  autoPlay = true,
+}: {
+  src: URL | string;
+  title: string;
+  byline: string;
+  thumbnail_src: URL | string | null;
+  onNext: CallableFunction | null;
+  onPrevious: CallableFunction | null;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  autoPlay: boolean;
 }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -78,6 +88,22 @@ export function AudioPlayer({
       audio.removeEventListener("ended", handleEnded);
     };
   }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (autoPlay) {
+      audio
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.log("Auto-play prevented:", error);
+        });
+    }
+  }, [autoPlay, src]);
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -159,7 +185,7 @@ export function AudioPlayer({
   return (
     <div className="w-full h-full min-h-10 md:min-h-20 rounded-2xl overflow-hidden backdrop-blur-3xl relative font-sans">
       {/* Audio element */}
-      <audio ref={audioRef} src={src} />
+      <audio ref={audioRef} src={src} autoplay={true} />
 
       {/* Background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -195,10 +221,10 @@ export function AudioPlayer({
         {/* Left: Thumbnail and Info */}
         {!isMobile && (
           <div className="flex items-center gap-3 flex-shrink-0">
-            {posterUrl && (
+            {thumbnail_src && (
               <div className="relative w-[56px] h-[56px] rounded-md overflow-hidden shadow-lg flex-shrink-0">
                 <img
-                  src={posterUrl}
+                  src={thumbnail_src}
                   alt={title}
                   className="w-full h-full object-cover"
                 />
@@ -218,10 +244,10 @@ export function AudioPlayer({
         {/* Mobile: Info section */}
         {isMobile && (
           <div className="grid items-end mb-4">
-            {posterUrl && (
+            {thumbnail_src && (
               <div className="relative w-full aspect-square rounded-md overflow-hidden shadow-lg">
                 <img
-                  src={posterUrl}
+                  src={thumbnail_src}
                   alt={title}
                   className="w-full h-full object-cover"
                 />
