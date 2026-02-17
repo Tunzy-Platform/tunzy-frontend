@@ -12,8 +12,6 @@ import { useStartDownloadTrack } from "@/features/downloads/hooks";
 import { DownloadStatusEnum } from "@/features/downloads/types";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { PlayerContextType } from "@/features/player/contexts";
-
 
 export function PlaylistTrackItem({
   playlistID,
