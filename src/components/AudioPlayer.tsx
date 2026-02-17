@@ -185,7 +185,7 @@ export function AudioPlayer({
   return (
     <div className="w-full h-full min-h-10 md:min-h-20 rounded-2xl overflow-hidden backdrop-blur-3xl relative font-sans">
       {/* Audio element */}
-      <audio ref={audioRef} src={src} autoplay={true} />
+      <audio ref={audioRef} src={src} />
 
       {/* Background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
