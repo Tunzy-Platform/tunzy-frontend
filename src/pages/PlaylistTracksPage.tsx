@@ -76,7 +76,11 @@ export function PlaylistTracksPage() {
               isLoading={syncingIsLoading}
             />
           )}
-          <PlaylistTrack tracks={data} playlistID={playlistData?.id} />
+          <PlaylistTrack
+            tracks={data}
+            playlistID={playlistData?.id}
+            syncingDone={syncingSuccess}
+          />
         </div>
       </div>
     </div>

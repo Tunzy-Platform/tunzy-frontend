@@ -13,51 +13,58 @@ import { DownloadStatusEnum } from "@/features/downloads/types";
 export function PlaylistTrack({
   tracks,
   playlistID,
+  syncingDone,
 }: {
   tracks: PlaylistTrackType[] | null | undefined;
   playlistID: number | undefined;
+  syncingDone: boolean;
 }) {
   const playerContext = useContext(PlayerContext);
   const queryClient = useQueryClient();
-  useEffect(() => {
-    const url = `${import.meta.env.VITE_REACT_APP_BASE_URL_API}/downloads/progress-report/${playlistID}/playlist`;
-    const eventSource = new EventSource(url);
+  useEffect(
+    () => {
+      const url = `${import.meta.env.VITE_REACT_APP_BASE_URL_API}/downloads/progress-report/${playlistID}/playlist`;
+      const eventSource = new EventSource(url);
 
-    eventSource.onmessage = (ev) => {
-      const data: DownloadProgressType[] = JSON.parse(ev.data);
-      queryClient.setQueryData(
-        ["playlist-tracks", playlistID],
-        (cache: PlaylistTrackType[]) => {
-          const lookup_map = new Map(cache.map((item) => [item.id, item]));
-          for (const [trackID, statusData] of Object.entries(data)) {
-            const trackIDNumber = Number(trackID);
-            const track = lookup_map.get(trackIDNumber);
-            if (!track) continue;
+      eventSource.onmessage = (ev) => {
+        const data: DownloadProgressType[] = JSON.parse(ev.data);
+        queryClient.setQueryData(
+          ["playlist-tracks", playlistID],
+          (cache: PlaylistTrackType[]) => {
+            const lookup_map = new Map(cache.map((item) => [item.id, item]));
+            for (const [trackID, statusData] of Object.entries(data)) {
+              const trackIDNumber = Number(trackID);
+              const track = lookup_map.get(trackIDNumber);
+              if (!track) continue;
 
-            if (!track.download) {
-              track.download = {
-                id: -1,
-                file_path: null,
-                status: DownloadStatusEnum.Pending,
-              };
+              if (!track.download) {
+                track.download = {
+                  id: -1,
+                  file_path: null,
+                  status: DownloadStatusEnum.Pending,
+                };
+              }
+
+              lookup_map.set(trackIDNumber, {
+                ...track,
+                download: {
+                  ...track.download,
+                  status: statusData.status,
+                },
+              });
             }
 
-            lookup_map.set(trackIDNumber, {
-              ...track,
-              download: {
-                ...track.download,
-                status: statusData.status,
-              },
-            });
-          }
+            return Array.from(lookup_map.values());
+          },
+        );
+      };
 
-          return Array.from(lookup_map.values());
-        },
-      );
-    };
-
-    return () => eventSource.close();
-  }, []);
+      return () => eventSource.close();
+    },
+    // this api didn't update itself tracks list
+    // so after tracks be updated we call it again
+    [playlistID, queryClient, syncingDone],
+  );
 
   const playTrackState = (track: PlaylistTrackType) => {
     if (!playTrackState) {
