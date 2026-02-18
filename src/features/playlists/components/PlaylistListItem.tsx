@@ -50,9 +50,9 @@ export function PlaylistListItem({
             )}
           </ItemDescription>
         </ItemContent>
-        <ItemContent className="flex-none text-center">
+        {/* <ItemContent className="flex-none text-center">
           status: {playlist?.is_synced ? "✅" : "☑️"}
-        </ItemContent>
+        </ItemContent> */}
       </Link>
     </Item>
   );
