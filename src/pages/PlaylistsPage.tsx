@@ -4,7 +4,7 @@ export function PlayListsPage() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-5xl pt-10 gap-3 flex flex-col">
+      <div className="w-full max-w-5xl  gap-3 flex flex-col mb-10">
         <div>
           <PlaylistList />
         </div>

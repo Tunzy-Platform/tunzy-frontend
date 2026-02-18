@@ -53,7 +53,7 @@ export function PlaylistTracksPage() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-5xl pt-10 gap-3 flex flex-col">
+      <div className="w-full max-w-5xl gap-3 flex flex-col">
         <div className="flex gap-2 self-end">
           <SpinnerButton
             text="Syncing"
