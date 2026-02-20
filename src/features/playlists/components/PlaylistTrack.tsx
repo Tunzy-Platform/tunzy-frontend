@@ -69,7 +69,6 @@ export function PlaylistTrack({
           },
         );
 
-
         if (hasChanged) {
           player.playerDispatch({ type: "RefreshQueue", queue: latestTracks });
           hasChanged = false;
@@ -80,7 +79,7 @@ export function PlaylistTrack({
     },
     // this api didn't update itself tracks list
     // so after tracks be updated we call it again
-    [playlistID, queryClient, syncingDone],
+    [player, playlistID, queryClient, syncingDone],
   );
 
   const playingTrack = (track: PlaylistTrackType) => {
