@@ -1,23 +1,24 @@
 import { AudioPlayer } from "@/components/AudioPlayer";
-import { useContext } from "react";
-import { PlayerContext } from "../contexts";
+
+import { usePlayer } from "../hooks";
 
 export function PlayerCard() {
-  const playerContext = useContext(PlayerContext);
-  if (playerContext == null || playerContext.track == null) {
+  const player = usePlayer();
+  if (player == undefined || player.state.currentIndex == null) {
     return <></>;
   }
+  const currentIndex = player.state.currentIndex;
   return (
     <>
       <AudioPlayer
-        src={String(playerContext.track.stream_url)}
-        title={playerContext.track.name}
-        byline={playerContext.track.artist_name}
-        thumbnail_src={playerContext.track.thumbnail}
-        onNext={null}
-        onPrevious={null}
-        hasNext={false}
-        hasPrevious={false}
+        src={String(player.state.queue[currentIndex].stream_url)}
+        title={player.state.queue[currentIndex]?.name}
+        byline={player.state.queue[currentIndex]?.artist_name}
+        thumbnail_src={player.state.queue[currentIndex]?.thumbnail}
+        onNext={() => player.playerDispatch({ type: "NextTrack" })}
+        onPrevious={() => player.playerDispatch({ type: "PreviousTrack" })}
+        hasNext={true}
+        hasPrevious={true}
         autoPlay={true}
       />
     </>
