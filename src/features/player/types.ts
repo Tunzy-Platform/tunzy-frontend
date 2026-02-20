@@ -14,7 +14,8 @@ export type PlayerAction =  (
   {type:"BuildPlayback"}|
   {type:"StartPlaying"}|
   {type:"NextTrack"}|
-  {type:"PreviousTrack"} 
+  {type:"PreviousTrack"} |
+  {type:"RefreshQueue",queue:PlaylistTrackType[]} 
 )
 
 export type PlayerContextValue = {

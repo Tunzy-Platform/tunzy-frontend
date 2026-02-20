@@ -16,6 +16,11 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
             }
         }
 
+        case "RefreshQueue":{
+            console.log("RefreshQueue")
+            return {...state,queue:action.queue}
+        }
+
         case "BuildPlayback":{
             const indexes = state?.queue?.map((_,i)=>i)
             let playback;

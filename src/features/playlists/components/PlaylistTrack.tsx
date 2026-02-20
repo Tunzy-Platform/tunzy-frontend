@@ -29,10 +29,14 @@ export function PlaylistTrack({
 
       eventSource.onmessage = (ev) => {
         const data: DownloadProgressType[] = JSON.parse(ev.data);
+        let hasChanged = false;
+        let latestTracks: PlaylistTrackType[] = [];
+
         queryClient.setQueryData(
           ["playlist-tracks", playlistID],
           (cache: PlaylistTrackType[]) => {
             const lookup_map = new Map(cache.map((item) => [item.id, item]));
+
             for (const [trackID, statusData] of Object.entries(data)) {
               const trackIDNumber = Number(trackID);
               const track = lookup_map.get(trackIDNumber);
@@ -44,6 +48,11 @@ export function PlaylistTrack({
                   file_path: null,
                   status: DownloadStatusEnum.Pending,
                 };
+                hasChanged = true;
+              }
+
+              if (statusData.status != track.download.status) {
+                hasChanged = true;
               }
 
               lookup_map.set(trackIDNumber, {
@@ -55,9 +64,16 @@ export function PlaylistTrack({
               });
             }
 
-            return Array.from(lookup_map.values());
+            latestTracks = Array.from(lookup_map.values());
+            return latestTracks;
           },
         );
+
+
+        if (hasChanged) {
+          player.playerDispatch({ type: "RefreshQueue", queue: latestTracks });
+          hasChanged = false;
+        }
       };
 
       return () => eventSource.close();

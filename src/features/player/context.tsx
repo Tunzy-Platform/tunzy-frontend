@@ -26,13 +26,13 @@ export function PlayerProvider({
     dispatch({
       type: "BuildPlayback",
     });
-  }, [state?.queue]);
+  }, [state.playlistID]);
 
   useEffect(() => {
     dispatch({
       type: "StartPlaying",
     });
-  }, [state?.playback, state?.currentIndex]);
+  }, [state.playback, state.currentIndex]);
 
   return (
     <PlayerContext value={{ state, playerDispatch: dispatch }}>
