@@ -5,10 +5,11 @@ import type {
   DownloadProgressType,
   PlaylistTrackType,
 } from "../../../types/types";
-import { useContext, useEffect } from "react";
-import { PlayerContext } from "@/features/player/contexts";
+import { useEffect } from "react";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { DownloadStatusEnum } from "@/features/downloads/types";
+import { usePlayer } from "@/features/player/hooks";
 
 export function PlaylistTrack({
   tracks,
@@ -19,7 +20,7 @@ export function PlaylistTrack({
   playlistID: number | undefined;
   syncingDone: boolean;
 }) {
-  const playerContext = useContext(PlayerContext);
+  const player = usePlayer();
   const queryClient = useQueryClient();
   useEffect(
     () => {
@@ -66,11 +67,13 @@ export function PlaylistTrack({
     [playlistID, queryClient, syncingDone],
   );
 
-  const playTrackState = (track: PlaylistTrackType) => {
-    if (!playTrackState) {
-      return;
-    }
-    return playerContext?.setTrack(track);
+  const playingTrack = (track: PlaylistTrackType) => {
+    return player.playerDispatch({
+      type: "PlayingTrack",
+      playlistID: playlistID || 0,
+      trackID: track.id,
+      queue: tracks,
+    });
   };
 
   return (
@@ -81,7 +84,7 @@ export function PlaylistTrack({
             key={song.id}
             song={song}
             playlistID={playlistID}
-            onPlaySong={playTrackState}
+            onPlaySong={playingTrack}
           />
         ))}
       </ItemGroup>
