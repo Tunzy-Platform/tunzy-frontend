@@ -1,12 +1,12 @@
 import { Menubar } from "./Menubar";
 import { Toaster } from "sonner";
 import { PlayerCard } from "@/features/player/components/PlayerCard";
-import { PlayerContext, usePlayerContext } from "@/features/player/contexts";
+import { PlayerProvider } from "@/features/player/context";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const playerContextValue = usePlayerContext(null);
+
   return (
-    <PlayerContext value={playerContextValue}>
+    <PlayerProvider context={undefined}>
       <div className="flex h-svh flex-col overflow-hidden bg-background">
         {/* Header - fixed height, no grow */}
         <header className=" z-30 h-16 shrink-0 border-b bg-background/80 backdrop-blur-sm">
@@ -26,6 +26,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Toaster outside if you want global toasts (recommended) */}
         <Toaster />
       </div>
-    </PlayerContext>
+    </PlayerProvider>
   );
 }
