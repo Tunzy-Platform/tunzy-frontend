@@ -5,11 +5,12 @@ import type {
   DownloadProgressType,
   PlaylistTrackType,
 } from "../../../types/types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { DownloadStatusEnum } from "@/features/downloads/types";
 import { usePlayer } from "@/features/player/hooks";
+import { PlaylistTrackItemMobile } from "./PlaylistTrackItemMobile";
 
 export function PlaylistTrack({
   tracks,
@@ -22,6 +23,14 @@ export function PlaylistTrack({
 }) {
   const player = usePlayer();
   const queryClient = useQueryClient();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 480);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  
   useEffect(
     () => {
       const url = `${import.meta.env.VITE_REACT_APP_BASE_URL_API}/downloads/progress-report/${playlistID}/playlist`;
@@ -94,14 +103,23 @@ export function PlaylistTrack({
   return (
     <div className="flex w-full flex-col gap-6">
       <ItemGroup className="gap-2">
-        {tracks?.map((song) => (
-          <PlaylistTrackItem
-            key={song.id}
-            song={song}
-            playlistID={playlistID}
-            onPlaySong={playingTrack}
-          />
-        ))}
+        {tracks?.map((song) =>
+          isMobile ? (
+            <PlaylistTrackItemMobile
+              key={song.id}
+              song={song}
+              playlistID={playlistID}
+              onPlaySong={playingTrack}
+            />
+          ) : (
+            <PlaylistTrackItem
+              key={song.id}
+              song={song}
+              playlistID={playlistID}
+              onPlaySong={playingTrack}
+            />
+          ),
+        )}
       </ItemGroup>
     </div>
   );

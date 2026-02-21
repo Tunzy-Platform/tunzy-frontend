@@ -21,7 +21,7 @@ export function PlaylistListItem({
   return (
     <Item key={playlist?.id} variant="outline" asChild role="listitem">
       <Link to={`/playlists/${playlist?.id}`}>
-        <ItemMedia variant="image" className="size-18">
+        <ItemMedia variant="image" className="size-15 md:size-18">
           {!imgIsLoaded && (
             <Skeleton className="size-18 shrink-0  object-cover " />
           )}
@@ -38,10 +38,10 @@ export function PlaylistListItem({
           </ItemTitle>
           <ItemDescription>{playlist?.owner}</ItemDescription>
         </ItemContent>
-        <ItemContent className="flex-none text-center">
+        <ItemContent className="flex-none text-center  hidden md:inline ">
           <ItemDescription>{playlist?.track_count} items</ItemDescription>
         </ItemContent>
-        <ItemContent className="flex-none text-center">
+        <ItemContent className="flex-none text-center hidden md:inline">
           <ItemDescription>
             {playlist?.duration ? (
               convertDurationToTime(playlist?.duration)

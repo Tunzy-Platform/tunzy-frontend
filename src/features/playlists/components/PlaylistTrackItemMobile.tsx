@@ -6,8 +6,8 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import type { PlaylistTrackType } from "../../../types/types";
-import { convertDurationToTime } from "../../../utils";
 
+import { ImageSpinnerButton } from "@/components/ImageSpinnerButton";
 import {
   useRetryDownloadTrack,
   useStartDownloadTrack,
@@ -15,9 +15,8 @@ import {
 import { DownloadStatusEnum } from "@/features/downloads/types";
 
 import { CloudAlertIcon, CloudDownloadIcon, PlayIcon } from "lucide-react";
-import { ImageSpinnerButton } from "@/components/ImageSpinnerButton";
 
-export function PlaylistTrackItem({
+export function PlaylistTrackItemMobile({
   playlistID,
   song,
   onPlaySong,
@@ -118,12 +117,8 @@ export function PlaylistTrackItem({
             {song.name} -{" "}
             <span className="text-muted-foreground">{song.album}</span>
           </ItemTitle>
+
           <ItemDescription>{song.artist_name}</ItemDescription>
-        </ItemContent>
-        <ItemContent className="flex-none text-center">
-          <ItemDescription>
-            {convertDurationToTime(song.duration)}
-          </ItemDescription>
         </ItemContent>
       </div>
     </Item>
