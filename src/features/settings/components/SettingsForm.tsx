@@ -103,7 +103,7 @@ export function SettingsForm({
   });
 
   return (
-    <Card className="w-full ">
+    <Card className="w-full h-full ">
       <CardHeader>
         <CardTitle>Settings</CardTitle>
       </CardHeader>
@@ -114,7 +114,7 @@ export function SettingsForm({
             e.preventDefault();
             form.handleSubmit();
           }}
-          className="w-[40%] flex flex-col gap-5"
+          className=" flex flex-col gap-5"
         >
           <form.Field
             name="soundcloud_oauth"
