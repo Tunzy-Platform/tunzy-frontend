@@ -257,9 +257,9 @@ export function AudioPlayer({
       >
         {/* Left: Thumbnail and Info */}
         {!isMobile && (
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             {thumbnail_src && (
-              <div className="relative w-[56px] h-[56px] rounded-md overflow-hidden shadow-lg flex-shrink-0">
+              <div className="relative w-14 h-14 rounded-md overflow-hidden shadow-lg shrink-0">
                 <img
                   src={thumbnail_src}
                   alt={title}
@@ -267,7 +267,7 @@ export function AudioPlayer({
                 />
               </div>
             )}
-            <div className="min-w-0 max-w-[180px]">
+            <div className="min-w-0 max-w-45">
               <h1 className="text-white text-sm font-medium leading-tight m-0 truncate">
                 {title}
               </h1>
@@ -289,7 +289,7 @@ export function AudioPlayer({
                   className="w-full h-full object-cover"
                 />
                 <div
-                  className="absolute bottom-0 w-full h-[100px]"
+                  className="absolute bottom-0 w-full h-25"
                   style={{
                     background:
                       "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%)",
@@ -385,7 +385,7 @@ export function AudioPlayer({
           {!isMobile && (
             <div className="flex items-center justify-center gap-2 w-full max-w-2xl">
               {/* Current time */}
-              <span className="text-[10px] text-white/70 min-w-[32px] text-right">
+              <span className="text-[10px] text-white/70 min-w-8 text-right">
                 {formatTime(currentTime)}
               </span>
 
@@ -426,7 +426,7 @@ export function AudioPlayer({
               </div>
 
               {/* Total duration */}
-              <span className="text-[10px] text-white/70 min-w-[32px] text-left">
+              <span className="text-[10px] text-white/70 min-w-8 text-left">
                 {formatTime(duration)}
               </span>
             </div>
@@ -435,10 +435,10 @@ export function AudioPlayer({
 
         {/* Right: Volume Controls */}
         {!isMobile && (
-          <div className="flex items-center justify-end gap-1.5 flex-shrink-0">
+          <div className="flex items-center justify-end gap-1.5 shrink-0">
             <button
               onClick={toggleMute}
-              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
+              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors shrink-0"
               aria-label={isMuted ? "Unmute" : "Mute"}
             >
               <svg
