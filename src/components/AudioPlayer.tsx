@@ -1,3 +1,12 @@
+import {
+  PauseIcon,
+  PlayIcon,
+  Repeat1Icon,
+  RepeatIcon,
+  ShuffleIcon,
+  SkipForwardIcon,
+  SkipBackIcon,
+} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export function AudioPlayer({
@@ -10,6 +19,10 @@ export function AudioPlayer({
   hasNext = false,
   hasPrevious = false,
   autoPlay = true,
+  isShuffle = false,
+  onToggleShuffle = null,
+  repeatMode = "off",
+  onCycleRepeat = null,
 }: {
   src: string;
   title: string;
@@ -20,6 +33,10 @@ export function AudioPlayer({
   hasNext: boolean;
   hasPrevious: boolean;
   autoPlay: boolean;
+  isShuffle: boolean;
+  onToggleShuffle: CallableFunction | null;
+  repeatMode: "off" | "one" | "all";
+  onCycleRepeat: CallableFunction | null;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -27,7 +44,7 @@ export function AudioPlayer({
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
-  const [playbackRate, setPlaybackRate] = useState(1);
+  // const [playbackRate, setPlaybackRate] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const progressRef = useRef<HTMLDivElement | null>(null);
@@ -77,11 +94,26 @@ export function AudioPlayer({
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
     const handleEnded = () => {
-      setIsPlaying(false);
-      if (hasNext && onNext) {
-        onNext();
+      const audioEl = audioRef.current;
+      if (!audioEl) return;
+
+      // Repeat one: restart same track
+      if (repeatMode === "one") {
+        audioEl.currentTime = 0;
+        audioEl.play();
+        return;
       }
-    };
+
+      // Move to next track if available
+      if (hasNext && onNext) {
+        setIsPlaying(false); // reset local UI state
+        onNext();
+        return;
+      }
+
+      // No next track → stop playing
+      setIsPlaying(false);
+    };;
 
     audio.addEventListener("timeupdate", updateTime);
     audio.addEventListener("loadedmetadata", updateDuration);
@@ -92,7 +124,7 @@ export function AudioPlayer({
       audio.removeEventListener("loadedmetadata", updateDuration);
       audio.removeEventListener("ended", handleEnded);
     };
-  }, []);
+  }, [repeatMode, hasNext, onNext]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -168,15 +200,15 @@ export function AudioPlayer({
     }
   };
 
-  const cyclePlaybackRate = () => {
-    const rates = [1, 1.25, 1.5, 1.75, 2];
-    const currentIndex = rates.indexOf(playbackRate);
-    const nextRate = rates[(currentIndex + 1) % rates.length];
-    setPlaybackRate(nextRate);
-    if (audioRef.current) {
-      audioRef.current.playbackRate = nextRate;
-    }
-  };
+  // const cyclePlaybackRate = () => {
+  //   const rates = [1, 1.25, 1.5, 1.75, 2];
+  //   const currentIndex = rates.indexOf(playbackRate);
+  //   const nextRate = rates[(currentIndex + 1) % rates.length];
+  //   setPlaybackRate(nextRate);
+  //   if (audioRef.current) {
+  //     audioRef.current.playbackRate = nextRate;
+  //   }
+  // };
 
   const formatTime = (time: number) => {
     if (!time || isNaN(time)) return "0:00";
@@ -280,14 +312,24 @@ export function AudioPlayer({
         <div className="flex-1 flex flex-col items-center justify-center ">
           {/* Control buttons */}
           <div className="flex items-center justify-center gap-1">
-            {/* Playback rate */}
+            {/* Shuffle */}
+            <button
+              onClick={() => onToggleShuffle && onToggleShuffle()}
+              className={`p-1.5 rounded-lg transition-colors text-white text-xs font-medium min-w-9 ${
+                isShuffle ? "bg-white/20" : "hover:bg-white/10"
+              }`}
+              aria-label="Toggle shuffle"
+            >
+              <ShuffleIcon />
+            </button>
+            {/* Playback rate
             <button
               onClick={cyclePlaybackRate}
               className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white text-xs font-medium min-w-9"
               aria-label={`Playback rate: ${playbackRate}x`}
             >
               {playbackRate}x
-            </button>
+            </button> */}
 
             {/* Previous Track */}
             <button
@@ -300,18 +342,7 @@ export function AudioPlayer({
               }`}
               aria-label="Previous track"
             >
-              <svg
-                className="w-6 h-6"
-                viewBox="0 0 32 32"
-                fill="none"
-                stroke="white"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M8 8v16" strokeWidth="2" />
-                <path d="M24 8L12 16l12 8V8z" fill="white" stroke="none" />
-              </svg>
+              <SkipBackIcon />
             </button>
 
             {/* Play/Pause */}
@@ -320,39 +351,7 @@ export function AudioPlayer({
               className="p-1.5 rounded-lg hover:bg-white/10 transition-colors flex"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
-              <svg
-                className="w-15 h-15 self-center"
-                viewBox="0 0 32 32"
-                fill="none"
-                stroke="white"
-                strokeWidth="1"
-              >
-                {isPlaying ? (
-                  <g>
-                    <rect
-                      x="10.5"
-                      y="10.5"
-                      width="4"
-                      height="11"
-                      rx="0.5"
-                      fill="white"
-                    />
-                    <rect
-                      x="17.5"
-                      y="10.5"
-                      width="4"
-                      height="11"
-                      rx="0.5"
-                      fill="white"
-                    />
-                  </g>
-                ) : (
-                  <path
-                    d="M20.7131 14.6976C21.7208 15.2735 21.7208 16.7265 20.7131 17.3024L12.7442 21.856C11.7442 22.4274 10.5 21.7054 10.5 20.5536L10.5 11.4464C10.5 10.2946 11.7442 9.57257 12.7442 10.144L20.7131 14.6976Z"
-                    fill="white"
-                  />
-                )}
-              </svg>
+              {isPlaying ? <PauseIcon /> : <PlayIcon />}
             </button>
 
             {/* Next Track */}
@@ -366,18 +365,19 @@ export function AudioPlayer({
               }`}
               aria-label="Next track"
             >
-              <svg
-                className="w-6 h-6"
-                viewBox="0 0 32 32"
-                fill="none"
-                stroke="white"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M24 8v16" strokeWidth="2" />
-                <path d="M8 8l12 8-12 8V8z" fill="white" stroke="none" />
-              </svg>
+              <SkipForwardIcon />
+            </button>
+            {/* Repeat */}
+            <button
+              onClick={() => onCycleRepeat && onCycleRepeat()}
+              className={`p-1.5 rounded-lg transition-colors text-white text-xs font-medium min-w-9 ${
+                repeatMode !== "off" ? "bg-white/20" : "hover:bg-white/10"
+              }`}
+              aria-label={`Repeat mode: ${repeatMode}`}
+            >
+              {repeatMode === "off" && <RepeatIcon />}
+              {repeatMode === "one" && <Repeat1Icon />}
+              {repeatMode === "all" && <RepeatIcon />}
             </button>
           </div>
 

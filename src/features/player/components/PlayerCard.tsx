@@ -4,10 +4,20 @@ import { usePlayer } from "../hooks";
 
 export function PlayerCard() {
   const player = usePlayer();
-  if (player == undefined || player.state.currentIndex == null) {
+  if (
+    player == undefined ||
+    player.state.currentIndex == null ||
+    player.state.playback.length == 0
+  ) {
     return <></>;
   }
-  const currentIndex = player.state.currentIndex;
+  const currentIndex = player.state.playback[player.state.currentIndex];
+  console.log(
+    "current track",
+    currentIndex,
+    player.state.currentIndex,
+    player.state.playback,
+  );
   return (
     <>
       <AudioPlayer
@@ -20,6 +30,12 @@ export function PlayerCard() {
         hasNext={true}
         hasPrevious={true}
         autoPlay={true}
+        isShuffle={player.state.isShuffle}
+        onToggleShuffle={() => player.playerDispatch({ type: "ToggleShuffle" })}
+        repeatMode={player.state.repeatMode}
+        onCycleRepeat={() =>
+          player.playerDispatch({ type: "ToggleRepeatMode" })
+        }
       />
     </>
   );
