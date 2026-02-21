@@ -11,7 +11,10 @@ export function Menubar() {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 h-10 w-full pt-5">
       <NavigationMenu className="w-full h-full px-5">
-        <NavigationMenuList>
+        <NavigationMenuList className="flex">
+          <NavigationMenuItem className="mr-2">
+            <img src="icons/icon-only.png" alt="" className="w-8 md:w-10" />
+          </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild
@@ -20,14 +23,7 @@ export function Menubar() {
               <Link to="">Home</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
-          {/* <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link to="playlists">Playlist</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem> */}
+
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild
