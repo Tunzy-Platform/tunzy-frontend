@@ -8,6 +8,7 @@ import {
   SkipBackIcon,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { ScrollingText } from "./ui/ScrollingText";
 
 export function AudioPlayer({
   src,
@@ -231,10 +232,8 @@ export function AudioPlayer({
           style={{ opacity: isDragging ? 0.4 : 1, transition: "opacity 0.3s" }}
         >
           {/* Mobile: Info section */}
-          <div className="text-center w-full my-1">
-            <h1 className="text-white text-sm font-normal leading-tight m-0 truncate">
-              {title}
-            </h1>
+          <div className="text-center w-full my-1 ">
+            <ScrollingText text={title} />
           </div>
           {/* c */}
 
@@ -446,9 +445,7 @@ export function AudioPlayer({
               </div>
             )}
             <div className="min-w-0 max-w-45">
-              <h1 className="text-white text-sm font-medium leading-tight m-0 truncate">
-                {title}
-              </h1>
+              <ScrollingText text={title} />
               <h2 className="text-white text-xs font-normal leading-tight m-0 opacity-60 truncate">
                 {byline}
               </h2>
