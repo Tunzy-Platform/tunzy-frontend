@@ -89,10 +89,8 @@ export function PlaylistTrackItemMobile({
                 disabled={isPending}
                 isLoading={true}
                 className="w-16 h-16"
-              >
-                {/* Icon */}
-                <CloudDownloadIcon className="relative z-10 text-white" />
-              </ImageSpinnerButton>
+                children={undefined}
+              />
             )}
           {/* Failed State */}
           {song.download &&
