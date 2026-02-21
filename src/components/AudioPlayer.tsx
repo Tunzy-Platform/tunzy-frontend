@@ -224,31 +224,9 @@ export function AudioPlayer({
       {/* Audio element */}
       <audio ref={audioRef} src={src} />
 
-      {/* Background shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-1/2 h-full max-h-33 opacity-20"
-          style={{
-            filter: "blur(80px)",
-            mixBlendMode: "plus-lighter",
-            background:
-              "radial-gradient(ellipse, rgba(255,255,255,0.4) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full max-h-33 opacity-20"
-          style={{
-            filter: "blur(80px)",
-            mixBlendMode: "plus-lighter",
-            background:
-              "radial-gradient(ellipse, rgba(255,255,255,0.4) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
       {/* Main content */}
       <div
-        className={`relative z-10 h-full flex ${
+        className={`relative z-10 h-full flex justify-end ${
           isMobile
             ? "flex-col pb-4"
             : "md:flex-row md:items-center md:px-5 md:gap-3"
@@ -257,7 +235,7 @@ export function AudioPlayer({
       >
         {/* Left: Thumbnail and Info */}
         {!isMobile && (
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-3 shrink-0 max-w-50 w-50">
             {thumbnail_src && (
               <div className="relative w-14 h-14 rounded-md overflow-hidden shadow-lg shrink-0">
                 <img
