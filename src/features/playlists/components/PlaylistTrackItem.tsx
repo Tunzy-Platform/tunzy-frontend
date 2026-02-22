@@ -114,8 +114,10 @@ export function PlaylistTrackItem({
           {/* Title */}
           <ItemContent className="h-full mt-2 ml-2">
             <ItemTitle className="line-clamp-1">
-              {song.name} -{" "}
-              <span className="text-muted-foreground">{song.album}</span>
+              {song.name}
+              {song.album && (
+                <span className="text-muted-foreground">- {song.album}</span>
+              )}
             </ItemTitle>
             <ItemDescription>{song.artist_name || ""}</ItemDescription>
           </ItemContent>
