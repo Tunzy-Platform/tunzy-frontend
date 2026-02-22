@@ -131,14 +131,17 @@ export function PlaylistTrackItem({
 
         {/* Download Progress */}
         {song.download &&
-          song.download.status == DownloadStatusEnum.Downloading && (
+          (song.download.status == DownloadStatusEnum.Downloading ||
+            song.download.status == DownloadStatusEnum.Pending) && (
             <div className="flex w-full gap-2 items-center h-1 text-center">
               <Progress
-                value={song.download.progress}
+                value={song.download.progress || 0}
                 id="progress-upload"
                 className="flex-1 h-1"
               />
-              <span className="ml-auto text-xs">{song.download.progress}%</span>
+              <span className="ml-auto text-xs">
+                {song.download.progress || 0}%
+              </span>
             </div>
           )}
       </div>
