@@ -1,8 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { cancelDownloadTrack, fetchDownloads, retryDownloadTrack, startDownloadTrack } from "./api";
-import type { DownloadTrackData, PlaylistTrackType } from "@/types/types";
-import type { DownloadTrack } from "./types";
-
+import type { DownloadTrack, DownloadTrackData, PlaylistTrackType } from "@/types/types";
 
 export function useFetchDownloads(){
     return useQuery({

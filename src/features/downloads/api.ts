@@ -1,6 +1,5 @@
 import { GET, POST } from "@/api/client";
-import type { DownloadTrackData } from "@/types/types";
-import type { DownloadTrack } from "./types";
+import type { DownloadTrack, DownloadTrackData } from "@/types/types";
 
 export function fetchDownloads():Promise<DownloadTrack[]>{
     return GET("downloads/",{})
