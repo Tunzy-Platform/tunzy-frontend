@@ -110,11 +110,11 @@ export function PlaylistTrackItemMobile({
               </ImageSpinnerButton>
             )}
         </ItemMedia>
-        <ItemContent>
-          <ItemTitle className="line-clamp-1">
+        <ItemContent className="min-w-0">
+          <ItemTitle className="truncate max-w-full ">
             {song.name}
             {song.album && (
-              <span className="text-muted-foreground">- {song.album}</span>
+              <span className="text-muted-foreground bg-">- {song.album}</span>
             )}
           </ItemTitle>
 

@@ -15,7 +15,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
         {/* Main content area – takes remaining space, scrolls internally */}
         <main className="flex-1 flex overflow-auto ">
-          <div className="flex-1 m-10">{children}</div>
+          <div className="flex-1 m-2 md:m-10 min-w-0 ">{children}</div>
         </main>
 
         {/* Player – fixed height, stays at bottom in document flow */}
