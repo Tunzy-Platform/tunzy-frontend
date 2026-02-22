@@ -1,5 +1,18 @@
-import type { DownloadStatusType } from "@/features/downloads/types"
 
+export const  DownloadStatusEnum ={
+  Pending : 'pending',
+  Downloading : 'downloading',
+  Failed : 'failed',
+  Successful : 'successful',
+}
+export type DownloadStatusType = typeof DownloadStatusEnum[keyof typeof DownloadStatusEnum]
+
+export type DownloadTrack = {
+    id:number
+    status:DownloadStatusType
+    track:PlaylistTrackType
+    progress:number
+}
 export type DownloadTrackData = {
     id:number
     file_path:string|null

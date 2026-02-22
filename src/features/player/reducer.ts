@@ -1,7 +1,8 @@
-import { DownloadStatusEnum } from "../downloads/types";
+
 import type { PlayerAction, PlayerStore } from "./types";
 import { shuffle } from "@/utils";
 import { RepeatModes } from "./types";
+import { DownloadStatusEnum } from "@/types/types";
 export function playerReducer(state:PlayerStore,action:PlayerAction){
     switch (action.type){
         

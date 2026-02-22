@@ -9,11 +9,12 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
-import { DownloadStatusEnum, type DownloadTrack } from "../types";
+
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DownloadStatusEnum, type DownloadTrack } from "@/types/types";
 
 export function DownloadListItem({
   item,

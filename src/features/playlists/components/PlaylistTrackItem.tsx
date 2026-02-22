@@ -5,15 +5,12 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import type { PlaylistTrackType } from "../../../types/types";
-import { convertDurationToTime } from "../../../utils";
-
+import { DownloadStatusEnum, type PlaylistTrackType } from "@/types/types";
+import { convertDurationToTime } from "@/utils";
 import {
   useRetryDownloadTrack,
   useStartDownloadTrack,
 } from "@/features/downloads/hooks";
-import { DownloadStatusEnum } from "@/features/downloads/types";
-
 import { CloudAlertIcon, CloudDownloadIcon, PlayIcon } from "lucide-react";
 import { ImageSpinnerButton } from "@/components/ImageSpinnerButton";
 
