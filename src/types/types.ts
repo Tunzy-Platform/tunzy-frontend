@@ -17,6 +17,8 @@ export type DownloadTrackData = {
     id:number
     file_path:string|null
     status:DownloadStatusType
+    progress:number
+
 }
 export type DownloadProgressType = {
     percent:number
