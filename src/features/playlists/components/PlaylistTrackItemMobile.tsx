@@ -14,6 +14,7 @@ import {
 } from "@/features/downloads/hooks";
 
 import { CloudAlertIcon, CloudDownloadIcon, PlayIcon } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 export function PlaylistTrackItemMobile({
   playlistID,
@@ -111,12 +112,27 @@ export function PlaylistTrackItemMobile({
         </ItemMedia>
         <ItemContent>
           <ItemTitle className="line-clamp-1">
-            {song.name} -{" "}
-            <span className="text-muted-foreground">{song.album}</span>
+            {song.name}
+            {song.album && (
+              <span className="text-muted-foreground">- {song.album}</span>
+            )}
           </ItemTitle>
 
           <ItemDescription>{song.artist_name}</ItemDescription>
         </ItemContent>
+
+        {/* Download Progress */}
+        {song.download &&
+          song.download.status == DownloadStatusEnum.Downloading && (
+            <div className="flex w-full gap-2 items-center h-1 text-center">
+              <Progress
+                value={song.download.progress}
+                id="progress-upload"
+                className="flex-1 h-1"
+              />
+              <span className="ml-auto text-xs">{song.download.progress}%</span>
+            </div>
+          )}
       </div>
     </Item>
   );
