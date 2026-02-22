@@ -7,8 +7,7 @@ import {
 import { DownloadListItem } from "./DownloadLitstItem";
 import { EmptyList } from "./EmptyList";
 import { useQueryClient } from "@tanstack/react-query";
-import type { DownloadTrack } from "../types";
-import type { DownloadProgressType } from "@/types/types";
+import type { DownloadProgressType, DownloadTrack } from "@/types/types";
 
 export function DownloadsList() {
   const { data, isLoading, error } = useFetchDownloads();
@@ -44,7 +43,7 @@ export function DownloadsList() {
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [API_BASE_UEL, queryClient]);
 
   if (!data || !data.length || error || isLoading) {
     return <EmptyList />;

@@ -1,14 +1,14 @@
 import { ItemGroup } from "@/components/ui/item";
 
 import { PlaylistTrackItem } from "./PlaylistTrackItem";
-import type {
-  DownloadProgressType,
-  PlaylistTrackType,
-} from "../../../types/types";
+import {
+  DownloadStatusEnum,
+  type DownloadProgressType,
+  type PlaylistTrackType,
+} from "@/types/types";
 import { useEffect, useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { DownloadStatusEnum } from "@/features/downloads/types";
 import { usePlayer } from "@/features/player/hooks";
 import { PlaylistTrackItemMobile } from "./PlaylistTrackItemMobile";
 
@@ -56,6 +56,7 @@ export function PlaylistTrack({
                   id: -1,
                   file_path: null,
                   status: DownloadStatusEnum.Pending,
+                  progress: 0,
                 };
                 hasChanged = true;
               }
@@ -69,6 +70,7 @@ export function PlaylistTrack({
                 download: {
                   ...track.download,
                   status: statusData.status,
+                  progress: statusData.percent,
                 },
               });
             }
