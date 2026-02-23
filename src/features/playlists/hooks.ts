@@ -1,5 +1,5 @@
 
-import { fetchPlaylist, fetchPlaylists, fetchPlaylistTracks,syncPlaylists,syncPlaylistTracks } from "./api"
+import { downloadPlaylistTracks, fetchPlaylist, fetchPlaylists, fetchPlaylistTracks,syncPlaylists,syncPlaylistTracks } from "./api"
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export function usePlaylists(){
@@ -64,4 +64,12 @@ export function useSyncPlaylists(){
         syncingError:mutation.isError,
         syncingSuccess:mutation.isSuccess,
     }
+}
+export function useDownloadPlaylistTracks(){
+    const queryClient = useQueryClient()
+    const mutation = useMutation({
+        mutationFn:(playlistID:number)=> downloadPlaylistTracks(playlistID),
+        onSuccess:()=>queryClient.invalidateQueries({queryKey:['downloads']})
+    })
+    return mutation
 }

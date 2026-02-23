@@ -1,5 +1,6 @@
 import { PlaylistListItem } from "@/features/playlists/components/PlaylistListItem";
 import {
+  useDownloadPlaylistTracks,
   usePlaylist,
   usePlaylistTracks,
   useSyncPlaylistTracks,
@@ -29,6 +30,9 @@ export function PlaylistTracksPage() {
     syncingError,
     syncingSuccess,
   } = useSyncPlaylistTracks(playlistData?.id);
+
+  const downloadMutation = useDownloadPlaylistTracks();
+
   useEffect(() => {
     if (syncingError) {
       toast.error("Error While Syncing Tracks Try Again", {
@@ -60,6 +64,12 @@ export function PlaylistTracksPage() {
             setState={syncing}
             disabled={syncingIsLoading}
             isLoading={syncingIsLoading}
+          />
+          <SpinnerButton
+            text="Download All"
+            setState={() => downloadMutation.mutate(playlistData?.id || 0)}
+            disabled={downloadMutation.isPending}
+            isLoading={downloadMutation.isPending}
           />
         </div>
         <div>

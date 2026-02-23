@@ -17,4 +17,8 @@ export function syncPlaylistTracks(playlistID:number|undefined):Promise<SyncPlay
 }
 export function syncPlaylists():Promise<SyncPlaylistsType>{
     return POST(`playlists/sync/`,{},{})
+
+}
+export function downloadPlaylistTracks(playlistID:number):Promise<SyncPlaylistsType>{
+    return POST(`downloads/playlists/${playlistID}/tracks`,{},{})
 }
