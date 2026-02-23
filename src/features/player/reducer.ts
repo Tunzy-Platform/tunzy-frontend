@@ -61,7 +61,7 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
                 isPlaying:true
             }
         }
-        
+
         case "PausePlaying":{
             return {...state,
                 isPlaying:false
@@ -89,7 +89,7 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
                 
 
                 const currentTrackIndex = state.playback[newIndex]
-                if(state.queue[currentTrackIndex].download?.status === DownloadStatusEnum.Successful){
+                if(state.queue[currentTrackIndex]?.download?.status === DownloadStatusEnum.Successful){
                     newCurrentIndex=newIndex
                     trackIndex = state.playback[newIndex]
                     break
@@ -130,7 +130,7 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
                 }
 
                 const currentTrackIndex = state.playback[newIndex]
-                if(newIndex >=0 && state.queue[currentTrackIndex].download?.status === DownloadStatusEnum.Successful){
+                if(newIndex >=0 && state.queue[currentTrackIndex]?.download?.status === DownloadStatusEnum.Successful){
                     newCurrentIndex=newIndex
                     trackIndex = state.playback[newIndex]
                     break
