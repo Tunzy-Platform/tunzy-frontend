@@ -12,12 +12,6 @@ export function PlayerCard() {
     return <></>;
   }
   const currentIndex = player.state.playback[player.state.currentIndex];
-  console.log(
-    "current track",
-    currentIndex,
-    player.state.currentIndex,
-    player.state.playback,
-  );
   return (
     <>
       <AudioPlayer
