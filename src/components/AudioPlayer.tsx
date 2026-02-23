@@ -9,38 +9,33 @@ import {
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { ScrollingText } from "./ui/ScrollingText";
+import type { PlayerContextValue } from "@/features/player/types";
 
 export function AudioPlayer({
   src,
+  player,
   title = "Audio Title",
   byline = "Artist Name",
   thumbnail_src = null,
-  onNext = null,
-  onPrevious = null,
   hasNext = false,
   hasPrevious = false,
   autoPlay = true,
   isShuffle = false,
-  onToggleShuffle = null,
   repeatMode = "off",
-  onCycleRepeat = null,
 }: {
   src: string;
+  player: PlayerContextValue;
   title: string;
   byline: string;
   thumbnail_src: string | null;
-  onNext: CallableFunction | null;
-  onPrevious: CallableFunction | null;
   hasNext: boolean;
   hasPrevious: boolean;
   autoPlay: boolean;
   isShuffle: boolean;
-  onToggleShuffle: CallableFunction | null;
   repeatMode: "off" | "one" | "all";
-  onCycleRepeat: CallableFunction | null;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(player.state.isPlaying);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
@@ -48,8 +43,74 @@ export function AudioPlayer({
   // const [playbackRate, setPlaybackRate] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef<HTMLDivElement | null>(null);
+  const audio = audioRef.current;
 
+  const playingFn = () => {
+    if (audio == null) return;
+    audio.play();
+    setIsPlaying(true);
+    player.playerDispatch({ type: "StartPlaying" });
+  };
 
+  const pauseFn = () => {
+    if (audio == null) return;
+    audio.pause();
+    setIsPlaying(false);
+    player.playerDispatch({ type: "PausePlaying" });
+  };
+
+  const onNext = () => {
+    player.playerDispatch({ type: "NextTrack" });
+  };
+
+  const onPrevious = () => {
+    player.playerDispatch({ type: "PreviousTrack" });
+  };
+  const onToggleShuffle = () => {
+    player.playerDispatch({ type: "ToggleShuffle" });
+  };
+  const onCycleRepeat = () => {
+    player.playerDispatch({ type: "ToggleRepeatMode" });
+  };
+
+  useEffect(() => {
+    navigator.mediaSession.setActionHandler("nexttrack", () =>
+      player.playerDispatch({ type: "NextTrack" }),
+    );
+
+    navigator.mediaSession.setActionHandler("previoustrack", () => {
+      player.playerDispatch({ type: "PreviousTrack" });
+    });
+
+    navigator.mediaSession.setActionHandler("play", playingFn);
+    navigator.mediaSession.setActionHandler("pause", pauseFn);
+  });
+
+  useEffect(() => {
+    if (
+      player == undefined ||
+      player.state.currentIndex == null ||
+      player.state.playback.length == 0
+    ) {
+      return;
+    }
+    const currentIndex = player.state.playback[player.state.currentIndex];
+    const track = player.state.queue[currentIndex];
+    navigator.mediaSession.metadata = new MediaMetadata({
+      album: track.album || undefined,
+      artist: track.artist_name || "Tunzy",
+      title: track.name,
+      artwork: track.thumbnail
+        ? [
+            {
+              src: track.thumbnail,
+              sizes: "512x512",
+              type: "image/png",
+            },
+          ]
+        : undefined,
+    });
+  }, [player]);
   useEffect(() => {
     const handleMouseMove = (e: { clientX: number }) => {
       if (isDragging && progressRef.current) {
@@ -99,7 +160,7 @@ export function AudioPlayer({
       }
 
       // Move to next track if available
-      if (hasNext && onNext) {
+      if (hasNext) {
         setIsPlaying(false); // reset local UI state
         onNext();
         return;
@@ -107,7 +168,7 @@ export function AudioPlayer({
 
       // No next track → stop playing
       setIsPlaying(false);
-    };;
+    };
 
     audio.addEventListener("timeupdate", updateTime);
     audio.addEventListener("loadedmetadata", updateDuration);
@@ -118,7 +179,7 @@ export function AudioPlayer({
       audio.removeEventListener("loadedmetadata", updateDuration);
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [repeatMode, hasNext, onNext]);
+  });
 
   useEffect(() => {
     const audio = audioRef.current;

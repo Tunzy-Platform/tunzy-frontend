@@ -4,6 +4,7 @@ import { usePlayer } from "../hooks";
 
 export function PlayerCard() {
   const player = usePlayer();
+
   if (
     player == undefined ||
     player.state.currentIndex == null ||
@@ -12,24 +13,21 @@ export function PlayerCard() {
     return <></>;
   }
   const currentIndex = player.state.playback[player.state.currentIndex];
+  const track = player.state.queue[currentIndex];
+
   return (
     <>
       <AudioPlayer
-        src={String(player.state.queue[currentIndex].stream_url)}
-        title={player.state.queue[currentIndex]?.name}
-        byline={player.state.queue[currentIndex]?.artist_name}
-        thumbnail_src={player.state.queue[currentIndex]?.thumbnail}
-        onNext={() => player.playerDispatch({ type: "NextTrack" })}
-        onPrevious={() => player.playerDispatch({ type: "PreviousTrack" })}
+        src={String(track.stream_url)}
+        player={player}
+        title={track?.name}
+        byline={track?.artist_name}
+        thumbnail_src={track?.thumbnail}
         hasNext={true}
         hasPrevious={true}
         autoPlay={true}
         isShuffle={player.state.isShuffle}
-        onToggleShuffle={() => player.playerDispatch({ type: "ToggleShuffle" })}
         repeatMode={player.state.repeatMode}
-        onCycleRepeat={() =>
-          player.playerDispatch({ type: "ToggleRepeatMode" })
-        }
       />
     </>
   );
