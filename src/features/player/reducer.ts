@@ -45,8 +45,9 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
             if(action.shuffle){
                 playback = [state.currentIndex || 0,...shuffle(indexes.filter((i)=>i!=state.currentIndex))]
             }
+            
             // find the current track position inside new playback
-            const currentIndex = playback.findIndex((i)=> i == state.trackIndex)
+            const currentIndex = state.trackIndex != -1 ? playback.findIndex((i)=> i == state.trackIndex) : null
 
             return {...state,
                 isShuffle:action.shuffle,

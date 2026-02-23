@@ -4,7 +4,7 @@ import { playerReducer } from "./reducer";
 import { PlayerContext } from "./hooks";
 
 const PlayerContextInitialValue: PlayerStore = {
-  trackIndex: 0,
+  trackIndex: -1,
   queue: [],
   playback: [],
   playlistID: null,
