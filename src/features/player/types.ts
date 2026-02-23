@@ -16,6 +16,7 @@ export type PlayerAction =  (
   {type:"PlayingTrack",trackID:number,playlistID:number,queue:PlaylistTrackType[]}|
   {type:"BuildPlayback",shuffle:boolean}|
   {type:"StartPlaying"}|
+  {type:"PausePlaying"}|
   {type:"NextTrack"}|
   {type:"PreviousTrack"} |
   {type:"RefreshQueue",queue:PlaylistTrackType[]} |

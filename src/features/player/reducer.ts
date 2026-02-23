@@ -45,7 +45,7 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
             if(action.shuffle){
                 playback = [state.currentIndex || 0,...shuffle(indexes.filter((i)=>i!=state.currentIndex))]
             }
-            
+
             // find the current track position inside new playback
             const currentIndex = state.trackIndex != -1 ? playback.findIndex((i)=> i == state.trackIndex) : null
 
@@ -59,6 +59,12 @@ export function playerReducer(state:PlayerStore,action:PlayerAction){
         case "StartPlaying": {
             return {...state,
                 isPlaying:true
+            }
+        }
+        
+        case "PausePlaying":{
+            return {...state,
+                isPlaying:false
             }
         }
 
