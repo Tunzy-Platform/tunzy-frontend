@@ -51,11 +51,11 @@ export function DownloadListItem({
             <Field className="w-full ">
               <div className="flex w-full gap-5 items-center ">
                 <Progress
-                  value={item.progress}
+                  value={item.progress || 0}
                   id="progress-upload"
                   className="flex-1"
                 />
-                <span className="ml-auto">{item.progress}%</span>
+                <span className="ml-auto">{item.progress || 0}%</span>
               </div>
             </Field>
           )}
