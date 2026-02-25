@@ -1,2 +1,4 @@
 Tunzy – Your SoundCloud, Supercharged.
 Sync your playlists, likes, and tracks instantly. Listen offline, play directly from your own server, and never miss a beat. All your music. Always updated. Fully yours.
+
+### Quick Install: https://hub.docker.com/r/balckhole/tunzy
